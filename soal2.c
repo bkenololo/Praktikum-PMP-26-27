@@ -40,7 +40,7 @@ void print(struct Paket array[], int N){
         if(array[i].error!=1){
             totalvalid += 1;
             printf("%s", array[i].kata);
-            if (i < totalvalid)
+            if (i < totalvalid-1)
             {
                 printf(" ");
             }
