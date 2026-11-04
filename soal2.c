@@ -14,6 +14,7 @@ struct Paket {
     int index;
     char kata[100];
     int length;
+    int error;
 };
 
 void reverse(char kata[]){
@@ -35,12 +36,15 @@ void print(struct Paket array[], int N){
     int sumlen = 0;
     for (int i = 0; i < N; i++)
     {
-        if(strcmp(array[i].kata, "kodeError")==1){
-            printf("");
-        } else {
-            printf("%s ", array[i].kata);
+        if(array[i].error!=1){
+            printf("%s", array[i].kata);
+            if (i < 4)
+            {
+                printf(" ");
+            }
+            
             sumlen+=array[i].length;
-        }
+        };
     }
     printf("\nLENGTH %d\n", sumlen);
 }
@@ -63,8 +67,9 @@ int main(){
         array[index_i-1].length=strlen(kata_i);
         if(strcmp(sandi, sandi_i) == 0){
             strcpy(array[index_i-1].kata, kata_i);
+            array[index_i-1].error=0;
         } else {
-            strcpy(array[index_i-1].kata, "kodeError");
+            array[index_i-1].error=1;
         }
         // printf("%d %s \n", array[index_i-1].index, array[index_i-1].kata);
     }
