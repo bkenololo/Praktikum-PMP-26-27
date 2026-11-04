@@ -34,15 +34,16 @@ void reverse(char kata[]){
 
 void print(struct Paket array[], int N){
     int sumlen = 0;
+    int totalvalid=0;
     for (int i = 0; i < N; i++)
     {
         if(array[i].error!=1){
+            totalvalid += 1;
             printf("%s", array[i].kata);
-            if (i < 4)
+            if (i < totalvalid)
             {
                 printf(" ");
             }
-            
             sumlen+=array[i].length;
         };
     }
