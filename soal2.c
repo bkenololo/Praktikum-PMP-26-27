@@ -64,7 +64,7 @@ int main(){
         char sandi_i[20];
         char kata_i[100];
 
-        scanf("%d %19s %99s", &index_i, sandi_i, kata_i);
+        if (scanf("%d %19s %99s", &index_i, sandi_i, kata_i) != 3) break;
         reverse(kata_i);
 
         if(strcmp(sandi, sandi_i) == 0){
