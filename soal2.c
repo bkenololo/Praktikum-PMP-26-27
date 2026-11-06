@@ -39,11 +39,14 @@ void print(struct Paket array[], int N){
     {
         if(array[i].error!=1){
             totalvalid += 1;
-            printf("%s", array[i].kata);
-            if (i < totalvalid-1)
+            if(i < N-1){
+                printf("%s ", array[i].kata);
+            } else if (i == N-1)
             {
-                printf(" ");
+                printf("%s", array[i].kata);
             }
+            
+            
             sumlen+=array[i].length;
         };
     }
