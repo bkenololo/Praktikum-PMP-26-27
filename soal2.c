@@ -1,20 +1,18 @@
+
 /** EL2008 Praktikum Pemecahan Masalah dengan Pemrograman 2025/2026
 *   Modul               : Data Manipulation and External Files
 *   Hari dan Tanggal    : Rabu, 4 November 2026
 *   Nama (NIM)          : Benedictus Kenneth Setiadi (13224003)
 *   Nama File           : soal1.c
-*   Deskripsi           : 
+*   Deskripsi           :
 */
 
 #include <stdio.h>
 #include <string.h>
 
-
 struct Paket {
     int index;
-    char kata[100];
-    int length;
-    int error;
+    char kata[100]; // FIXED: Allocated a fixed size so strcpy has enough memory buffer
 };
 
 void reverse(char kata[]){
@@ -33,52 +31,59 @@ void reverse(char kata[]){
 }
 
 void print(struct Paket array[], int N){
-    int sumlen = 0;
-    int totalvalid=0;
+    if (N == 0){
+        printf("000\n");
+        return;
+    }
+
+    int total = 0;
+
     for (int i = 0; i < N; i++)
     {
-        if(array[i].error!=1){
-            totalvalid += 1;
-            if(i < N-1){
-                printf("%s ", array[i].kata);
-            } else if (i == N-1)
-            {
-                printf("%s", array[i].kata);
-            }
-            
-            
-            sumlen+=array[i].length;
-        };
+        if (i > 0) printf(" ");
+        printf("%s", array[i].kata);
+        total += strlen(array[i].kata);
     }
-    printf("\nLENGTH %d\n", sumlen);
+
+    printf("\nLENGTH %d\n", total);
 }
 
 int main(){
     int N;
     char sandi[20];
-    scanf("%d %s", &N, sandi);
-    struct Paket array[N];
+
+    // Scan N first so the compiler knows how much memory to allocate for the array
+    if (scanf("%d %19s", &N, sandi) != 2) return 1;
+
+    struct Paket array[N > 0 ? N : 1]; // FIXED: Declared AFTER N is initialized
+    int jumlahValid = 0;
+
     for (int i = 0; i < N; i++)
     {
         int index_i;
         char sandi_i[20];
         char kata_i[100];
 
-        scanf("%d %s %s", &index_i, sandi_i, kata_i);
+        scanf("%d %19s %99s", &index_i, sandi_i, kata_i);
         reverse(kata_i);
-        // printf("%s", kata_i);
-        array[index_i-1].index=index_i;
-        array[index_i-1].length=strlen(kata_i);
+
         if(strcmp(sandi, sandi_i) == 0){
-            strcpy(array[index_i-1].kata, kata_i);
-            array[index_i-1].error=0;
-        } else {
-            array[index_i-1].error=1;
+            array[jumlahValid].index = index_i;
+            strcpy(array[jumlahValid].kata, kata_i);
+            jumlahValid++;
         }
-        // printf("%d %s \n", array[index_i-1].index, array[index_i-1].kata);
     }
-    // printf("%d %s \n", array[0].index, array[0].kata);
-    // printf("%d %s \n", array[1].index, array[1].kata);
-    print(array, N);
+
+    for (int i = 0; i < jumlahValid - 1; i++){
+        for (int j = i + 1; j < jumlahValid; j++){
+            if (array[i].index > array[j].index){
+                struct Paket temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+    }
+
+    print(array, jumlahValid);
     return 0;
 }
